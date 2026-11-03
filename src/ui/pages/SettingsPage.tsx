@@ -338,7 +338,7 @@ export function SettingsPage() {
           </a>
           <a
             className="settings-row"
-            href="https://github.com/MatiasBS027/open-cards"
+            href="https://github.com/MtGhozt/open-cards"
             target="_blank"
             rel="noreferrer"
           >
@@ -348,7 +348,7 @@ export function SettingsPage() {
               </span>
               <span>
                 <strong>Código fuente</strong>
-                <span className="muted">github.com/MatiasBS027/open-cards</span>
+                <span className="muted">github.com/MtGhozt/open-cards</span>
               </span>
             </span>
             <span className="settings-chevron" aria-hidden>

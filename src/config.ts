@@ -1,6 +1,6 @@
 /** Injected from package.json via Vite `define` (see vite.config.ts). */
 export const APP_VERSION = __APP_VERSION__
-export const GITHUB_REPO = 'MatiasBS027/open-cards'
+export const GITHUB_REPO = 'MtGhozt/open-cards'
 export const GITHUB_RELEASES_LATEST = `https://github.com/${GITHUB_REPO}/releases/latest`
 export const GITHUB_RELEASES_API = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`
 
