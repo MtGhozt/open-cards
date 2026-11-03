@@ -1,0 +1,376 @@
+{
+  "format": "open-cards",
+  "version": 1,
+  "exportedAt": "2026-11-03T17:30:00-06:00",
+  "decks": [
+    {
+      "name": "Modelos continuos",
+      "description": "Distribución uniforme continua, exponencial, normal, gamma y beta: rango, densidad, FDA, media, varianza y FGM.",
+      "tags": ["Probabilidad", "V.A.C.", "Examen", "Modelos"],
+      "cards": [
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es el rango (soporte) de $X\\sim U(a,b)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "R_X = [a, b]"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la función de densidad $f_X(m)$ de $X\\sim U(a,b)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "f_X(m) = \\begin{cases} \\frac{1}{b-a} & \\text{si } a \\le m \\le b \\\\ 0 & \\text{en otro caso} \\end{cases}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FDA $F_X(m)$ de $X\\sim U(a,b)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "F_X(m) = \\begin{cases} 0 & \\text{si } m < a \\\\ \\frac{m-a}{b-a} & \\text{si } a \\le m \\le b \\\\ 1 & \\text{si } m > b \\end{cases}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuáles son $\\mu$ y $\\sigma^2$ de $X\\sim U(a,b)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\mu_X = \\frac{a+b}{2},\\qquad \\sigma^2_X = \\frac{(b-a)^2}{12}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FGM $\\varphi_X(t)$ de $X\\sim U(a,b)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\varphi_X(t) = \\frac{e^{bt} - e^{at}}{t(b-a)}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es el rango (soporte) de $X\\sim \\text{Exp}(\\lambda)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "R_X = [0, \\infty)"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la función de densidad $f_X(m)$ de $X\\sim \\text{Exp}(\\lambda)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "f_X(m) = \\begin{cases} \\lambda e^{-\\lambda m} & \\text{si } m \\ge 0 \\\\ 0 & \\text{si } m < 0 \\end{cases}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FDA $F_X(m)$ de $X\\sim \\text{Exp}(\\lambda)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "F_X(m) = \\begin{cases} 1 - e^{-\\lambda m} & \\text{si } m \\ge 0 \\\\ 0 & \\text{si } m < 0 \\end{cases}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuáles son $\\mu$ y $\\sigma^2$ de $X\\sim \\text{Exp}(\\lambda)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\mu_X = \\frac{1}{\\lambda},\\qquad \\sigma^2_X = \\frac{1}{\\lambda^2}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FGM $\\varphi_X(t)$ de $X\\sim \\text{Exp}(\\lambda)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\varphi_X(t) = \\frac{\\lambda}{\\lambda - t}\\quad \\text{para } t < \\lambda"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es el rango (soporte) de $X\\sim N(\\mu, \\sigma^2)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "R_X = (-\\infty, \\infty)"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la función de densidad $f_X(m)$ de $X\\sim N(\\mu, \\sigma^2)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "f_X(m) = \\frac{1}{\\sqrt{2\\pi}\\sigma} e^{-\\frac{(m-\\mu)^2}{2\\sigma^2}}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FDA $F_X(m)$ de $X\\sim N(\\mu, \\sigma^2)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "F_X(m) = \\Phi\\left(\\frac{m-\\mu}{\\sigma}\\right) = \\int_{-\\infty}^{m} \\frac{1}{\\sqrt{2\\pi}\\sigma} e^{-\\frac{(y-\\mu)^2}{2\\sigma^2}}\\, dy"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuáles son $\\mu$ y $\\sigma^2$ de $X\\sim N(\\mu, \\sigma^2)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\mu_X = \\mu,\\qquad \\sigma^2_X = \\sigma^2"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FGM $\\varphi_X(t)$ de $X\\sim N(\\mu, \\sigma^2)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\varphi_X(t) = e^{\\mu t + \\frac{\\sigma^2 t^2}{2}}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es el rango (soporte) de $X\\sim \\text{Gamma}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "R_X = [0, \\infty)"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la función de densidad $f_X(m)$ de $X\\sim \\text{Gamma}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "f_X(m) = \\begin{cases} \\frac{m^{\\alpha-1} e^{-m/\\beta}}{\\beta^\\alpha \\Gamma(\\alpha)} & \\text{si } m \\ge 0 \\\\ 0 & \\text{en otro caso} \\end{cases}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FDA $F_X(m)$ de $X\\sim \\text{Gamma}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "F_X(m) = F\\left(\\frac{m}{\\beta}; \\alpha\\right)"
+            },
+            {
+              "type": "text",
+              "content": "Expresada mediante la función gamma incompleta regularizada."
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuáles son $\\mu$ y $\\sigma^2$ de $X\\sim \\text{Gamma}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\mu_X = \\alpha\\beta,\\qquad \\sigma^2_X = \\alpha\\beta^2"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FGM $\\varphi_X(t)$ de $X\\sim \\text{Gamma}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\varphi_X(t) = \\frac{1}{(1 - \\beta t)^\\alpha}\\quad \\text{si } t < \\frac{1}{\\beta}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es el rango (soporte) de $X\\sim \\text{Beta}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "R_X = [0, 1]"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la función de densidad $f_X(m)$ de $X\\sim \\text{Beta}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "f_X(m) = \\begin{cases} \\frac{\\Gamma(\\alpha + \\beta)}{\\Gamma(\\alpha)\\Gamma(\\beta)} m^{\\alpha-1} (1-m)^{\\beta-1} & \\text{si } 0 \\le m \\le 1 \\\\ 0 & \\text{en otro caso} \\end{cases}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FDA $F_X(m)$ de $X\\sim \\text{Beta}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "F_X(m) = I_m(\\alpha, \\beta)"
+            },
+            {
+              "type": "text",
+              "content": "Sin fórmula cerrada elemental; se expresa mediante la función beta incompleta regularizada."
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuáles son $\\mu$ y $\\sigma^2$ de $X\\sim \\text{Beta}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "math",
+              "content": "\\mu_X = \\frac{\\alpha}{\\alpha + \\beta},\\qquad \\sigma^2_X = \\frac{\\alpha \\beta}{(\\alpha + \\beta)^2 (\\alpha + \\beta + 1)}"
+            }
+          ]
+        },
+        {
+          "front": [
+            {
+              "type": "text",
+              "content": "¿Cuál es la FGM $\\varphi_X(t)$ de $X\\sim \\text{Beta}(\\alpha, \\beta)$?"
+            }
+          ],
+          "back": [
+            {
+              "type": "text",
+              "content": "Sin fórmula cerrada elemental; se define mediante la serie hipergeométrica:"
+            },
+            {
+              "type": "math",
+              "content": "\\varphi_X(t) = 1 + \\sum_{k=1}^{\\infty} \\left( \\prod_{r=0}^{k-1} \\frac{\\alpha+r}{\\alpha+\\beta+r} \\right) \\frac{t^k}{k!}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

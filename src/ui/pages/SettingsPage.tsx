@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Capacitor } from '@capacitor/core'
 import { APP_VERSION, GITHUB_RELEASES_LATEST } from '../../config'
 import type { ThemePreference } from '../../domain/types'
 import { downloadJson, exportAll } from '../../importExport/exportLibrary'
@@ -75,11 +76,18 @@ export function SettingsPage() {
         setUpdateStatus(`Ya estás en la última versión (${APP_VERSION}).`)
         return
       }
-      const href = update.apkUrl ?? update.htmlUrl
-      setUpdateStatus(
-        `Hay una actualización: ${update.tagName}. Abrí Descargar APK o Releases.`,
-      )
-      window.open(href, '_blank', 'noopener,noreferrer')
+      const isNative = Capacitor.isNativePlatform()
+      if (isNative) {
+        const href = update.apkUrl ?? update.htmlUrl
+        setUpdateStatus(
+          `Hay una actualización: ${update.tagName}. Abrí Descargar APK o Releases.`,
+        )
+        window.open(href, '_blank', 'noopener,noreferrer')
+      } else {
+        setUpdateStatus(
+          `Hay una versión más reciente: ${update.tagName}. Recargá la página para actualizar la web.`,
+        )
+      }
     } catch (err) {
       setUpdateStatus(
         err instanceof Error ? err.message : 'No se pudo comprobar la actualización.',

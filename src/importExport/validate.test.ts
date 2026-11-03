@@ -35,6 +35,22 @@ describe('IMP import validation', () => {
     }
   })
 
+  it('parses modelos-continuos example and validates all 25 cards without latex errors', () => {
+    const text = readFileSync(
+      resolve(process.cwd(), 'examples/modelos-continuos.json'),
+      'utf8',
+    )
+    const parsed = parseImportJson(text)
+    expect(parsed.ok).toBe(true)
+    if (!parsed.ok) return
+    expect(parsed.data.decks).toHaveLength(1)
+    const deck = parsed.data.decks[0]
+    expect(deck.name).toBe('Modelos continuos')
+    expect(deck.cards).toHaveLength(25)
+    const draft = toImportDraft(deck)
+    expect(draft.errors).toEqual([])
+  })
+
   it('IMP-10 rejects malformed json', () => {
     const parsed = parseImportJson('{')
     expect(parsed.ok).toBe(false)
