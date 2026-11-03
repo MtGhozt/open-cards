@@ -14,6 +14,95 @@ import { listDecks } from '../../storage/repositories'
 import { BlockEditor } from '../blocks/BlockEditor'
 import { BlockRenderer } from '../blocks/BlockRenderer'
 
+const EXAMPLE_IMPORT_JSON = JSON.stringify(
+  {
+    format: 'open-cards',
+    version: 1,
+    decks: [
+      {
+        name: 'Vocabulario de inglés',
+        description: 'Palabras clave y fórmulas de ejemplo',
+        tags: ['Inglés', 'Básico'],
+        cards: [
+          {
+            front: [{ type: 'text', content: 'to achieve' }],
+            back: [{ type: 'text', content: 'lograr, conseguir' }],
+          },
+          {
+            front: [{ type: 'text', content: 'Teorema de Pitágoras' }],
+            back: [{ type: 'math', content: 'a^2 + b^2 = c^2' }],
+          },
+          {
+            front: [{ type: 'text', content: 'Imprimir texto en Python' }],
+            back: [
+              {
+                type: 'code',
+                language: 'python',
+                content: "print('¡Hola mundo!')",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  null,
+  2,
+)
+
+const PLACEHOLDER_JSON = `{
+  "format": "open-cards",
+  "version": 1,
+  "decks": [
+    {
+      "name": "Nombre del mazo",
+      "cards": [
+        {
+          "front": [{ "type": "text", "content": "¿Pregunta?" }],
+          "back": [{ "type": "text", "content": "Respuesta" }]
+        }
+      ]
+    }
+  ]
+}`
+
+const AI_PROMPT_TEMPLATE = `Actúa como generador de flashcards para la aplicación Open Cards.
+Crea un mazo de tarjetas de estudio en formato JSON siguiendo estrictamente esta estructura:
+
+{
+  "format": "open-cards",
+  "version": 1,
+  "decks": [
+    {
+      "name": "[Nombre del mazo]",
+      "description": "[Descripción opcional]",
+      "tags": ["[Etiqueta 1]", "[Etiqueta 2]"],
+      "cards": [
+        {
+          "front": [
+            { "type": "text", "content": "Pregunta o término frontal" }
+          ],
+          "back": [
+            { "type": "text", "content": "Respuesta o reverso" }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+Reglas obligatorias:
+1. "format" debe ser "open-cards" y "version" debe ser 1.
+2. "decks" es un arreglo de mazos. Cada mazo debe tener "name" y "cards".
+3. "front" y "back" son arreglos de bloques con "type" y "content":
+   - Texto: { "type": "text", "content": "Texto (admite fórmulas matemáticas entre signos de dólar, ej: $x^2$)" }
+   - Matemáticas (LaTeX): { "type": "math", "content": "\\\\frac{a}{b}" }
+   - Código: { "type": "code", "language": "python", "content": "código aquí" }
+4. Devuelve ÚNICAMENTE el bloque JSON válido, sin introducciones ni texto adicional antes o después.
+
+Tema a desarrollar:
+[ESCRIBE AQUÍ EL TEMA O PEGA TUS APUNTES]`
+
 function revalidate(draft: ImportDeckDraft): ImportDeckDraft {
   const base = toImportDraft({
     name: draft.name,
@@ -41,6 +130,31 @@ export function ImportPage() {
   const [previewCard, setPreviewCard] = useState(0)
   const [showPreview, setShowPreview] = useState(false)
   const [pasteText, setPasteText] = useState('')
+  const [copiedTarget, setCopiedTarget] = useState<'ejemplo' | 'prompt' | null>(null)
+
+  const handleCopy = async (text: string, target: 'ejemplo' | 'prompt') => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text)
+      } else {
+        const ta = document.createElement('textarea')
+        ta.value = text
+        ta.style.position = 'fixed'
+        ta.style.opacity = '0'
+        document.body.appendChild(ta)
+        ta.focus()
+        ta.select()
+        document.execCommand('copy')
+        document.body.removeChild(ta)
+      }
+      setCopiedTarget(target)
+      window.setTimeout(() => {
+        setCopiedTarget((curr) => (curr === target ? null : curr))
+      }, 2500)
+    } catch {
+      // Ignorar fallo de portapapeles si el entorno no lo permite
+    }
+  }
 
   const openDraft = async (draft: ImportDeckDraft, index: number | null) => {
     const decks = await listDecks()
@@ -122,12 +236,108 @@ export function ImportPage() {
               Pega JSON y pulsa «Usar JSON», o elige un archivo. Cada mazo se
               revisa y confirma por separado. Siempre se añaden mazos nuevos.
             </p>
+
+            <details className="import-format-guide">
+              <summary className="import-format-summary">
+                <span>¿Cuál es el formato JSON que acepta? (Guía, ejemplo y prompt para IA)</span>
+              </summary>
+              <div className="import-format-body stack">
+                <p className="muted">
+                  Open Cards valida el JSON con el esquema <code>open-cards v1</code>.
+                  Tanto el frente (<code>front</code>) como el reverso (<code>back</code>) de cada tarjeta
+                  deben ser <strong>listas de bloques</strong> (texto, fórmulas LaTeX o código).
+                </p>
+
+                <div className="import-format-specs">
+                  <div>
+                    <strong>1. Estructura general:</strong>
+                    <ul>
+                      <li><code>"format": "open-cards"</code> (obligatorio)</li>
+                      <li><code>"version": 1</code> (obligatorio)</li>
+                      <li><code>"decks"</code>: arreglo con uno o varios mazos.</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <strong>2. Campos de cada mazo:</strong>
+                    <ul>
+                      <li><code>"name"</code>: nombre del mazo (obligatorio, texto de 1 a 120 caracteres).</li>
+                      <li><code>"description"</code>: descripción breve (opcional).</li>
+                      <li><code>"tags"</code>: arreglo de etiquetas de texto, ej. <code>["Biología", "Examen"]</code> (opcional).</li>
+                      <li><code>"cards"</code>: arreglo de tarjetas pertenecientes al mazo (obligatorio).</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <strong>3. Campos de cada tarjeta:</strong>
+                    <ul>
+                      <li><code>"front"</code>: arreglo de bloques para el frente de la tarjeta (al menos 1 bloque con contenido).</li>
+                      <li><code>"back"</code>: arreglo de bloques para el reverso de la tarjeta (al menos 1 bloque con contenido).</li>
+                      <li><code>"state"</code>: estado inicial opcional (<code>"unseen"</code>, <code>"seen"</code>, <code>"understood"</code> o <code>"needs_review"</code>). Por defecto es <code>"unseen"</code>.</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <strong>4. Tipos de bloque disponibles (para front y back):</strong>
+                    <ul>
+                      <li>
+                        <strong>Texto:</strong> <code>&#123; "type": "text", "content": "Pregunta con $fórmula$ en línea opcional" &#125;</code>
+                      </li>
+                      <li>
+                        <strong>Matemáticas (fórmula en bloque KaTeX):</strong> <code>&#123; "type": "math", "content": "a^2 + b^2 = c^2" &#125;</code>
+                      </li>
+                      <li>
+                        <strong>Código:</strong> <code>&#123; "type": "code", "language": "python", "content": "print('Hola')" &#125;</code>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="row gap wrap">
+                  <button
+                    type="button"
+                    className="button ghost"
+                    onClick={() => {
+                      setPasteText(EXAMPLE_IMPORT_JSON)
+                      if (error) setError('')
+                    }}
+                  >
+                    Cargar ejemplo en el editor
+                  </button>
+                  <button
+                    type="button"
+                    className="button ghost"
+                    onClick={() => void handleCopy(EXAMPLE_IMPORT_JSON, 'ejemplo')}
+                  >
+                    {copiedTarget === 'ejemplo' ? '✓ Ejemplo copiado' : 'Copiar ejemplo JSON'}
+                  </button>
+                  <button
+                    type="button"
+                    className="button ghost"
+                    onClick={() => void handleCopy(AI_PROMPT_TEMPLATE, 'prompt')}
+                  >
+                    {copiedTarget === 'prompt' ? '✓ Prompt copiado' : 'Copiar prompt para ChatGPT / IA'}
+                  </button>
+                </div>
+
+                <div className="import-snippet-box">
+                  <span className="import-snippet-title">Vista previa del JSON de ejemplo</span>
+                  <pre
+                    className="block-code"
+                    style={{ maxHeight: '180px', fontSize: '0.82rem', whiteSpace: 'pre' }}
+                  >
+                    {EXAMPLE_IMPORT_JSON}
+                  </pre>
+                </div>
+              </div>
+            </details>
+
             <label className="field">
               <span>JSON</span>
               <textarea
                 rows={10}
                 value={pasteText}
-                placeholder='{ "format": "open-cards", ... }'
+                placeholder={PLACEHOLDER_JSON}
                 onChange={(e) => {
                   setPasteText(e.target.value)
                   if (error) setError('')

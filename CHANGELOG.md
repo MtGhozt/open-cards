@@ -2,6 +2,14 @@
 
 All notable changes to Open Cards are documented here.
 
+## [v0.1.7](https://github.com/MatiasBS027/open-cards/releases/tag/v0.1.7) — 2026-11-03
+
+### Added
+
+- Interactive import format guide on the Import page: clear documentation of required root properties, deck fields, card structures, and supported block types (`text`, `math` LaTeX, `code`).
+- Quick import actions: one-click buttons to load example JSON into the editor, copy the JSON example to clipboard, and copy a ready-to-use LLM prompt template for generating decks with ChatGPT/Claude/Gemini.
+- Multi-line illustrative JSON placeholder in the import textarea to clarify the expected schema at a glance.
+
 ## [v0.1.6](https://github.com/MatiasBS027/open-cards/releases/tag/v0.1.6) — 2026-10-14
 
 ### Fixed
